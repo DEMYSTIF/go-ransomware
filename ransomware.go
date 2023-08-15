@@ -4,6 +4,7 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/rand"
+	"errors"
 	"fmt"
 	"io"
 	"os"
@@ -48,6 +49,30 @@ func encryptFile(key []byte, inputFile, outputFile string) error {
 
 	stream := cipher.NewCFBEncrypter(block, iv)
 	stream.XORKeyStream(ciphertext[aes.BlockSize:], plaintext)
+
+	return os.WriteFile(outputFile, ciphertext, 0644)
+}
+
+func decryptFile(key []byte, inputFile, outputFile string) error {
+	ciphertext, err := os.ReadFile(inputFile)
+	if err != nil {
+		return err
+	}
+
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		return err
+	}
+
+	if len(ciphertext) < aes.BlockSize {
+		return errors.New("Ciphertext is too short")
+	}
+
+	iv := ciphertext[:aes.BlockSize]
+	ciphertext = ciphertext[aes.BlockSize:]
+
+	stream := cipher.NewCFBDecrypter(block, iv)
+	stream.XORKeyStream(ciphertext, ciphertext)
 
 	return os.WriteFile(outputFile, ciphertext, 0644)
 }
