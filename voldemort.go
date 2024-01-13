@@ -26,7 +26,7 @@ func getContent() ([]string, error) {
 	}
 
 	for _, v := range files {
-		if !v.IsDir() && v.Name() != "voldemort.go" && v.Name() != "voldemort" {
+		if !v.IsDir() && v.Name() != "voldemort.go" && v.Name() != "voldemort" && v.Name() != "voldemort.exe" {
 			content = append(content, v.Name())
 		}
 	}
